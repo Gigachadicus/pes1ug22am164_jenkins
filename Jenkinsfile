@@ -1,39 +1,37 @@
 pipeline {
     agent any
-
     stages {
         stage('Clone Repository') {
             steps {
                 script {
-                    git branch: 'main', url: 'https://github.com/Gigachadicus/pes1ug22am164_jenkins.git'
+                    checkout scm
                 }
             }
         }
-
         stage('Build') {
             steps {
                 echo 'Building the C++ application...'
-                sh 'g++ -o pes1ug22am164 hello.cpp'  // Compile main.cpp as pes1ug22am164
+                sh 'make -C main'  // This will use the Makefile in the main directory
             }
         }
-
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh 'chmod +x pes1ug22am164'  // Ensure executable permission
-                sh './pes1ug22am164'  // Execute the compiled binary
+                sh 'cd main && chmod +x hello_exec'  // Ensure executable permission
+                sh 'cd main && ./hello_exec'  // Execute the compiled binary
             }
         }
-
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                sh 'echo "Deployment successful"'  // Placeholder for real deployment steps
+                sh 'echo "Deployment successful for PES1UG22AM164"'  // Placeholder for real deployment steps
             }
         }
     }
-
     post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
         failure {
             echo 'Pipeline failed'
         }
