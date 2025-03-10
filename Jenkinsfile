@@ -13,7 +13,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the C++ application...'
-                sh 'g++ -o pes1ug22am164 main.cpp'  // Compile main.cpp as pes1ug22am164
+                sh 'g++ -o pes1ug22am164 hello.cpp'  // Compile main.cpp as pes1ug22am164
             }
         }
 
